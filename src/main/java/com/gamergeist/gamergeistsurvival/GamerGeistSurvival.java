@@ -143,9 +143,9 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
         String name = p.getName();
         String displayname = p.getDisplayName();
 
-        String broadcastMessage = this.getConfig().getString("broadcast-message.join-message-broadcast").replaceAll("%player_name%", name).replaceAll("%player_display_name%", displayname);
+        String broadcastMessage = Objects.requireNonNull(this.getConfig().getString("broadcast-message.join-message-broadcast")).replaceAll("%player_name%", name).replaceAll("%player_display_name%", displayname);
         broadcastMessage = ChatColor.translateAlternateColorCodes('&', broadcastMessage);
-        String privateMessage = this.getConfig().getString("private-message.join-message-private").replaceAll("%player_name%", name).replaceAll("%player_display_name%", displayname);
+        String privateMessage = Objects.requireNonNull(this.getConfig().getString("private-message.join-message-private")).replaceAll("%player_name%", name).replaceAll("%player_display_name%", displayname);
         privateMessage = ChatColor.translateAlternateColorCodes('&', privateMessage);
 
         if (this.getConfig().getBoolean("broadcast-player-join-message")) {

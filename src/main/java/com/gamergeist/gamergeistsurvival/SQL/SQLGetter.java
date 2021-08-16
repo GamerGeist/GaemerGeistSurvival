@@ -152,6 +152,17 @@ public class SQLGetter {
         }
     }
 
+    public void createTeamTable(){
+        try{
+            StringBuilder tableCreate = new StringBuilder(500);
+            tableCreate.append("Create table if not exists TeamTable (TeamName Varchar(50),serializedRoles MediumText,");
+            tableCreate.append("serializedPermissions MediumText,primary key(TeamName)");
+            PreparedStatement ps = plugin.sql.getConnection().prepareStatement(tableCreate.toString());
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     public void addPoints(UUID uuid, int points, String table, String parameter) {
         try {
@@ -215,5 +226,18 @@ public class SQLGetter {
                 throwables.printStackTrace();
             }
         });
+    }
+
+    public void CreateTeam(String teamName,String serializedPermissions,String serializedRoles){
+        try{
+            PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
+            "insert ignore into teamtable(teamname,serializedRoles,serializedPermissions) values(?,?,?) ");
+            ps.setString(0,teamName);
+            ps.setString(1,serializedRoles);
+            ps.setString(2,serializedPermissions);
+            ps.executeUpdate();
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

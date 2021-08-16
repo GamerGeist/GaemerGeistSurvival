@@ -134,8 +134,8 @@ public class TeamManager {
         private static HashMap<String, Integer> priority;
         private static String TeamName;
         private int TeamSize;
-        private int MinRankPriority = 0;
-        private int MaxRankPriority = 1000000;
+        private int MinRankPriority;
+        private int MaxRankPriority;
         private static MessageManager m;
         private static Message msg = Message.getInstance();
 
@@ -183,6 +183,9 @@ public class TeamManager {
 
 
         public void setup() {
+            this.MaxRankPriority = priority.values().stream().toList().get(0);
+            this.MinRankPriority = priority.values().stream().toList().get(0);
+
             priority.values().forEach(i -> {
 
                 if (MaxRankPriority > i) {
