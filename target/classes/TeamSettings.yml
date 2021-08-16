@@ -1,0 +1,101 @@
+# Name of the main command without / (Default is /team) | ONLY ONE WORD ALLOWED.
+TeamCommand: "team"
+# You may change the name of this feature to be Guild, League, or whatever you like.
+TeamName: "&5Guild"
+# Prefix of the Teams Feature. (Prefix you want to use at the beginning of each message for this current feature.)
+Prefix: "&7[&bGuild&7]"
+# Max amount of players allowed in a team. (Default is 5)
+TeamSize:
+  # Decade whether you are allowed to Upgrade the Max players per team.
+  # If false, only Max-Players-Per-Team is used. (Default is true)
+  Upgradable: true
+  # Starting size before any upgrades to the Max players.
+  StartingSize: 3
+  # Max amount of players allowed in a team. (Default is 5)
+  Max-Players-Per-Team: 5
+
+Claims:
+  Enabled: true
+  BaseClaimArea: 3000
+  AreaPerPlayer: 1000
+  NoClaimZone:
+    Center: "0 0 0"
+    Distance: 200
+
+Banks:
+  # Decide whether you want to enable Team Banks. Default is true.
+  Enabled: true
+  # Set the maximum amount of money allowed in team Banks. Set to -1 for infinity. (Default is 5000)
+  MaxBankCap: 5000
+
+TeamChat:
+  # Decide whether you want to enable Team Chat. Default is true
+  Enabled: true
+  # Set the team chat prefix that is showed at the beginning of each Message if you're in team chat.
+  TeamChatPrefix: "&a[Team]"
+# Here you can edit the Default Settings of the teams Feature per the teams' role.
+#Priority: The order of superiority of one role over other, lower the number higher the priority.
+# Claim: Whether they should be allowed to Claim land for the team.
+# Remove: Whether they should be allowed to remove a Player from the team.
+# ChangePermissions: Whether they should be allowed to change team permissions.
+# Interact: Whether they should be allowed to Interact with items on their claim such as Crafting Tables, Furnaces, Buttons, Doors, Chests, etc...
+# Invite: Whether they should be allowed to invite new members.
+# Kick: Whether they should be allowed to kick a player from the team.
+# Promote: Whether they should be allowed to promote a Player on the team.
+# Demote: Whether they should be allowed to demote a Player on the team.
+# BlockBreak: Whether they should be allowed to break blocks inside the claim.
+# BlockPlace: Whether they should be allowed to place blocks inside the Claim.
+
+TeamRoles:
+  Leader:
+    Priority: 0
+    Permissions:
+      Claim: true
+      Remove: true
+      ChangePermissions: true
+      Interact: true
+      Invite: true
+      Kick: true
+      Promote: true
+      Demote: true
+      BlockBreak: true
+      BlockPlace: true
+  CoLeader:
+    Priority: 1
+    Permissions:
+      Claim: true
+      Remove: false
+      ChangePermissions: false
+      Interact: true
+      Invite: true
+      Kick: true
+      Promote: false
+      Demote: false
+      BlockBreak: true
+      BlockPlace: true
+  Trusted:
+    Priority: 2
+    Permissions:
+      Claim: false
+      Remove: false
+      ChangePermissions: false
+      Interact: true
+      Invite: false
+      Kick: false
+      Promote: false
+      Demote: false
+      BlockBreak: false
+      BlockPlace: false
+  Member:
+    Priority: 3
+    Permissions:
+      Claim: false
+      Remove: false
+      ChangePermissions: false
+      Interact: false
+      Invite: false
+      Kick: false
+      Promote: false
+      Demote: false
+      BlockBreak: false
+      BlockPlace: false

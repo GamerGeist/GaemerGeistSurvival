@@ -1,0 +1,15 @@
+name: GamerGeistSurvival
+version: ${project.version}
+main: com.gamergeist.gamergeistsurvival.GamerGeistSurvival
+api-version: 1.17
+prefix: GamerGeistSurvival
+authors: [ GamerGeist ]
+description: Main core for GamerGeist Survival
+website: http://www.gamergeist.com
+commands:
+  balance:
+    description: Shows currency of Geisten
+  bags:
+    description: Opens Bags Menu
+  guild:
+    description: Main command for the Team feature

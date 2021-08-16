@@ -1,0 +1,62 @@
+# Enter your MySQL Details below to connect to the database. (If you do not have a MySQL Database the plugin will not work)
+SQL:
+  # Username used to connect to the database.
+  Username: ""
+  # Current password used to connect to the database.
+  Password: ""
+  # Host name to connect to the database. (Usually IP followed by port. Example: localhost:3306)
+  Host: ""
+  # Database name for all progress to be saved to. (Name must be created inside the database)
+  Database: ""
+
+# Here you can customize some common Messages.
+Custom-Messages:
+  # Name for the main currency (Do not include color code here or a space | MUST BE ONE WORD)
+  main-currency: "Geisten"
+  # Name for the main currency (You may Include color code here | MUST BE ONE WORD FOR CURRENCY)
+  main-currency-color: "Geisten"
+  # Name for the Premium Currency (Do not include color code here or a space | MUST BE ONE WORD)
+  premium-currency: "Gems"
+  # Color for Premium Currency (Make sure to include a space at the beginning)
+  premium-currency-color: " &6"
+  # Message for console if the Database is Connected
+  database-connected: "§aDatabase is Connected"
+  # Message for console if the Database is Not Connected
+  database-not-connected: "§cDatabase is not Connected"
+  # Message for Player if they do not have a specific Permission.
+  no-perm: "§cYou don't have permission to use this"
+
+# Settings for Ore Bag
+Ore-Bag-resources-gui:
+  # GUI Name
+  gui-name: "&cOreBag &eMenu"
+  # GUI Size (OPTIONS: 9 | 18 | 27 | 36 | 45 | 54)
+  gui-size: 9
+  # GUI Item Names for the following Ores:
+  coal-item-name: "&3Coal"
+
+
+# Do you want to broadcast Player Join Message? true - yes | false - no
+broadcast-player-join-message: true
+
+# Do you want to broadcast Player Quit Message?
+broadcast-player-quit-message: true
+
+# Do you want to send a private Join message?
+private-player-join-message: true
+
+# Do you want to send a private Quit message?
+private-player-quit-message: true
+
+# There is currently 2 placeholders for Join Message and Quit Message.
+
+# %player_name% - Gets the players Username.
+# %player_display_name% - Gets the players Display name. (Useful if the player is using a nickname)
+
+broadcast-message:
+  join-message-broadcast: "&b%player_name% &cHas &ajoined &cthe server!"
+  quit-message-broadcast: "&b%player_name% Has &4Left &cthe server"
+
+private-message:
+  join-message-private: "&bCurrent Display Name: &c%player_display_name%"
+  quit-message-private: ""
