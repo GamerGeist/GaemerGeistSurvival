@@ -6,14 +6,11 @@ import com.gamergeist.gamergeistsurvival.GUI.Team.Team;
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
 import com.gamergeist.gamergeistsurvival.Messages.Message;
 import com.gamergeist.gamergeistsurvival.Messages.MessageManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
-import java.util.Objects;
 
 public class team implements CommandExecutor {
 
@@ -46,11 +43,11 @@ public class team implements CommandExecutor {
 
             if (args.length < 1) {
                 p.openInventory(Team.teamMenu(p));
-                m.SendMessage(msg.teamMsgPrefix + " &bFor more help please refer to &c/guild help", p);
+                MessageManager.SendMessage(msg.teamMsgPrefix + " &bFor more help please refer to &c/guild help", p);
                 return true;
             }
                 if (args[0].equalsIgnoreCase("help")) {
-                    m.SendMessage(
+                    MessageManager.SendMessage(
                             "&6-----------------------------------------------------" +
                                     msg.teamMsgPrefix + " &bWelcome to the help section of Guild&6.\n" +
                                     msg.teamMsgPrefix + "&bTo create a Guild, please type &c/guild create\n" +
@@ -61,11 +58,11 @@ public class team implements CommandExecutor {
                 }
                 else if (args[0].equalsIgnoreCase("info")) {
                     if (args.length < 2) {
-                        m.SendMessage(msg.teamMsgPrefix + " Please provide the Guild name", p);
+                        MessageManager.SendMessage(msg.teamMsgPrefix + " Please provide the Guild name", p);
                         return true;
                     }
                     if (args.length >= 3) {
-                        m.SendMessage(
+                        MessageManager.SendMessage(
                                 "&6-----------------------------------------------------" +
                                         msg.teamMsgPrefix + " §bGuild name§6: \n" +
                                         msg.teamMsgPrefix + "&bLeader§6:\n" +
@@ -81,7 +78,7 @@ public class team implements CommandExecutor {
                 // Creating the Team
                 else if (args[0].equalsIgnoreCase("create")) {
                     if (args.length < 2) {
-                        m.SendMessage(msg.teamMsgPrefix + " " + msg.incorrectFormat +
+                        MessageManager.SendMessage(msg.teamMsgPrefix + " " + msg.incorrectFormat +
                                 " &bPlease use &c/guild create {Guild Name} ", p);
                         return true;
                     }

@@ -240,4 +240,20 @@ public class SQLGetter {
             throwables.printStackTrace();
         }
     }
+
+    public String getTeam(String teamName,String searchTerm){
+        try{
+            PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
+                "select "+searchTerm+ " from teamtable where teamname = ?"
+            );
+            ps.setString(0,teamName);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getString(searchTerm);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
 }

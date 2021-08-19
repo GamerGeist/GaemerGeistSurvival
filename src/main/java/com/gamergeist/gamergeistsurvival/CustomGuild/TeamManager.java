@@ -126,7 +126,7 @@ public class TeamManager {
 
     }
 
-    static class Team {
+    public static class Team {
         //TODO: teamSize while invite
         private static HashMap<String, List<Player>> TeamMembersOnline;
         private static HashMap<String, List<OfflinePlayer>> TeamMembersOffline;
@@ -150,6 +150,18 @@ public class TeamManager {
             this.priority = priority;
 
             setup();
+        }
+
+        public static void SetPermissions(HashMap<String,HashMap<String, Boolean>> perms){
+                permissions = perms;
+        }
+
+        public static void SetTeamMembersOnline(HashMap<String,List<Player>> members){
+            TeamMembersOnline = members;
+        }
+
+        public static void SetTeamMembersOffline(HashMap<String,List<OfflinePlayer>> members){
+            TeamMembersOffline = members;
         }
 
         public void shiftPlayerOnline(Player player){

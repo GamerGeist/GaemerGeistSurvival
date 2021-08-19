@@ -3,7 +3,6 @@ package com.gamergeist.gamergeistsurvival;
 import com.gamergeist.gamergeistsurvival.Commands.Balance;
 import com.gamergeist.gamergeistsurvival.Commands.bags;
 import com.gamergeist.gamergeistsurvival.Commands.team;
-import com.gamergeist.gamergeistsurvival.ConversationAPI.Conversation_API;
 import com.gamergeist.gamergeistsurvival.CustomGuild.TeamManager;
 import com.gamergeist.gamergeistsurvival.Files.ConfigManager;
 import com.gamergeist.gamergeistsurvival.GUI.Bags.*;
@@ -35,27 +34,18 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
     public mySQL sql;
     public static Message msg;
     public static SQLGetter data;
-    public static MessageManager msgman;
     public static TeamManager tman;
-    public static Conversation_API conv;
     public static ConfigManager config;
     public static team team;
-
-        //datanocon = Objects.requireNonNull(gameSettings.getConfig().getString("Custom-Messages.database-connected")).replaceAll("&", "§");
-
-    public String datacon ;
-
 
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        datacon = this.getConfig().getString("Custom-Messages.database-connected").replaceAll("&", "§");
         config = new ConfigManager(this);
         sql = new mySQL(this);
         data = new SQLGetter(this);
         msg = new Message(this);
-        conv = new Conversation_API(this);
         tman = new TeamManager(this);
         team = new team(this);
 
@@ -97,12 +87,13 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
         }
 
         if (sql.isConnected()) {
-            Bukkit.getServer().getConsoleSender().sendMessage(datacon);
+            MessageManager.ConsoleMessage(msg.datacon);
             data.createOreBagTable();
             data.createWoodBagTable();
             data.createFarmBagTable();
             data.createCurrencyTable();
             data.createBagUnlockTable();
+            data.createTeamTable();
         }
     }
 
