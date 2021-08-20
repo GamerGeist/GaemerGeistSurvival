@@ -1,7 +1,7 @@
 package com.gamergeist.gamergeistsurvival.GUI.Bags;
 
 import com.gamergeist.gamergeistsurvival.ItemFactory;
-import com.gamergeist.gamergeistsurvival.SQL.HashMapCreation;
+import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapBags;
 import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,7 +31,7 @@ public class FarmBagUpgradesMenu implements Listener {
     public static int farmBagUpgradesLockedPrice = 0;
 
     public static Inventory farmBagUpgradesMenu(Player p) {
-        List<Integer> BagStatus = HashMapCreation.getBagMap().get(p.getUniqueId());
+        List<Integer> BagStatus = HashmapBags.getBagMap().get(p.getUniqueId());
         Inventory farmBagUpgradesInventory = Bukkit.createInventory(null, farmBagUpgradesInventorySize, farmBagUpgradesInventoryName);
 
         if (BagStatus.get(2) >= 1) {
@@ -52,7 +52,7 @@ public class FarmBagUpgradesMenu implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        List<Integer> BagStatus = HashMapCreation.getBagMap().get(p.getUniqueId());
+        List<Integer> BagStatus = HashmapBags.getBagMap().get(p.getUniqueId());
         if (e.getView().getTitle().equals(farmBagUpgradesInventoryName)) {
             e.setCancelled(true);
 
@@ -63,7 +63,7 @@ public class FarmBagUpgradesMenu implements Listener {
                 } else {
                     if (sql.getPoints(p.getUniqueId(), "CurrencyTable", "Geisten") >= farmBagUpgradesLockedPrice) {
                         sql.addPoints(p.getUniqueId(), farmBagUpgradesLockedPrice * -1, "CurrencyTable", "Geisten");
-                        HashMapCreation.updateBagMap(p,1,2);
+                        HashmapBags.updateBagMap(p,1,2);
                         p.closeInventory();
                         p.sendMessage("§bYou have unlocked §cFarm Bag §bLevel §a1§6!");
                         p.openInventory(FarmBagUpgradesMenu.farmBagUpgradesMenu(p));

@@ -8,6 +8,7 @@ import com.gamergeist.gamergeistsurvival.Files.ConfigManager;
 import com.gamergeist.gamergeistsurvival.GUI.Bags.*;
 import com.gamergeist.gamergeistsurvival.Messages.Message;
 import com.gamergeist.gamergeistsurvival.Messages.MessageManager;
+import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapBags;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -53,13 +54,13 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
         connectToSql();
         registerCommands();
         registerListeners();
-        HashMapCreation.AddExistingPlayers();
+        HashmapBags.AddExistingPlayers();
     }
 
     @Override
     public void onDisable(){
         Bukkit.getServer().getConsoleSender().sendMessage("§cPlugin Disabling");
-        HashMapCreation.SaveExistingPlayers();
+        HashmapBags.SaveExistingPlayers();
     }
 
     public void registerCommands() {
@@ -70,7 +71,7 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
 
     public void registerListeners() {
         register(this);
-        register(new HashMapCreation(this));
+        register(new HashmapBags(this));
         register(new BagsMenu(this));
         register(new OreBagUpgradesMenu());
         register(new WoodBagUpgradesMenu());
@@ -94,6 +95,9 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
             data.createCurrencyTable();
             data.createBagUnlockTable();
             data.createTeamTable();
+        }
+        else {
+            MessageManager.ConsoleMessage(msg.datanocon);
         }
     }
 

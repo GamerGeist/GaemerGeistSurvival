@@ -1,7 +1,7 @@
 package com.gamergeist.gamergeistsurvival.GUI.Bags;
 
 import com.gamergeist.gamergeistsurvival.ItemFactory;
-import com.gamergeist.gamergeistsurvival.SQL.HashMapCreation;
+import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapBags;
 import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -30,7 +30,7 @@ public class WoodBagUpgradesMenu implements Listener {
     public static int woodBagUpgradesLockedPrice = 0;
 
     public static Inventory woodBagUpgradesMenu(Player p) {
-        List<Integer> BagStatus = HashMapCreation.getBagMap().get(p.getUniqueId());
+        List<Integer> BagStatus = HashmapBags.getBagMap().get(p.getUniqueId());
         Inventory woodBagUpgradesInventory = Bukkit.createInventory(null, woodBagUpgradesInventorySize, woodBagUpgradesInventoryName);
 
         if (BagStatus.get(1) >= 1) {
@@ -51,7 +51,7 @@ public class WoodBagUpgradesMenu implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        List<Integer> BagStatus = HashMapCreation.getBagMap().get(p.getUniqueId());
+        List<Integer> BagStatus = HashmapBags.getBagMap().get(p.getUniqueId());
         if (e.getView().getTitle().equals(woodBagUpgradesInventoryName)) {
             e.setCancelled(true);
 
@@ -62,7 +62,7 @@ public class WoodBagUpgradesMenu implements Listener {
                 } else {
                     if (sql.getPoints(p.getUniqueId(), "CurrencyTable", "Geisten") >= woodBagUpgradesLockedPrice) {
                         sql.addPoints(p.getUniqueId(), woodBagUpgradesLockedPrice * -1, "CurrencyTable", "Geisten");
-                        HashMapCreation.updateBagMap(p,1,1);
+                        HashmapBags.updateBagMap(p,1,1);
                         p.closeInventory();
                         p.sendMessage("§bYou have unlocked §cWood Bag §bLevel §a1§6!");
                         p.openInventory(WoodBagUpgradesMenu.woodBagUpgradesMenu(p));

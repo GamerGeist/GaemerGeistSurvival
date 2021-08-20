@@ -1,7 +1,7 @@
 package com.gamergeist.gamergeistsurvival.GUI.Bags;
 
 import com.gamergeist.gamergeistsurvival.ItemFactory;
-import com.gamergeist.gamergeistsurvival.SQL.HashMapCreation;
+import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapBags;
 import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,7 +57,7 @@ public class OreBagUpgradesMenu implements Listener {
     public static String oreBagUpgradesResourcesName = "§cOre Bag §bResources";
 
     public static Inventory oreBagUpgradesMenu(Player p) {
-        List<Integer> BagStatus = HashMapCreation.getBagMap().get(p.getUniqueId());
+        List<Integer> BagStatus = HashmapBags.getBagMap().get(p.getUniqueId());
         Inventory oreBagUpgradesInventory = Bukkit.createInventory(null, oreBagUpgradesInventorySize, oreBagUpgradesInventoryName);
         for (int i = 0; i <= 26; i++) {
             oreBagUpgradesInventory.setItem(i, ItemFactory.generateItemStack("§b", Material.GRAY_STAINED_GLASS_PANE, 1, true));
@@ -94,7 +94,7 @@ oreBagUpgradesInventory.setItem(13, ItemFactory.generateItemStack(oreBagUpgrades
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        List<Integer> BagStatus = HashMapCreation.getBagMap().get(p.getUniqueId());
+        List<Integer> BagStatus = HashmapBags.getBagMap().get(p.getUniqueId());
         if (e.getView().getTitle().equals(oreBagUpgradesInventoryName)) {
             e.setCancelled(true);
 
@@ -105,7 +105,7 @@ oreBagUpgradesInventory.setItem(13, ItemFactory.generateItemStack(oreBagUpgrades
                 } else {
                     if (sql.getPoints(p.getUniqueId(), "CurrencyTable", "Geisten") >= oreBagUpgradesLockedPrice) {
                         sql.addPoints(p.getUniqueId(), oreBagUpgradesLockedPrice * -1, "CurrencyTable", "Geisten");
-                        HashMapCreation.updateBagMap(p, 1, 0);
+                        HashmapBags.updateBagMap(p, 1, 0);
                         p.closeInventory();
                         p.sendMessage("§bYou have unlocked §cOre Bag §bLevel §a1§6!");
                         p.openInventory(OreBagUpgradesMenu.oreBagUpgradesMenu(p));

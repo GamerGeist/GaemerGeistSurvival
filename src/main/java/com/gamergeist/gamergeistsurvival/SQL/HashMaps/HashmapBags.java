@@ -1,7 +1,8 @@
-package com.gamergeist.gamergeistsurvival.SQL;
+package com.gamergeist.gamergeistsurvival.SQL.HashMaps;
 
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
 import com.gamergeist.gamergeistsurvival.Messages.MessageManager;
+import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,22 +15,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.gamergeist.gamergeistsurvival.CustomGuild.TeamManager.Team;
-
-public class HashMapCreation implements Listener {
+public class HashmapBags implements Listener {
 
     private static final HashMap<UUID, List<Integer>> BagUnlocked = new HashMap<>();
-    private static final HashMap<String,Team> teams = new HashMap<>();
     private GamerGeistSurvival plugin;
     private static SQLGetter sql;
 
-    public HashMapCreation(GamerGeistSurvival plugin) {
+    public HashmapBags(GamerGeistSurvival plugin) {
     this.plugin = plugin;
     this.sql = SQLGetter.getInstance();
     }
 
     public static void AddExistingPlayers(){
-        Bukkit.getOnlinePlayers().forEach(HashMapCreation::Add);
+        Bukkit.getOnlinePlayers().forEach(HashmapBags::Add);
     }
 
     public static void SaveExistingPlayers(){
@@ -70,22 +68,6 @@ public class HashMapCreation implements Listener {
         leaveSaveProgress.put("farmbag",list.get(2));
         SQLGetter.getInstance().updateBagMap(uuid,leaveSaveProgress,"BagUnlockTable");
     }
-
-
-    //TEAMS
-
-    public static void AddTeam(String TeamName){
-        String perm = sql.getTeam(TeamName,"serializedPermissions");
-        String roles = sql.getTeam(TeamName,"serializedRoles");
-        String[] p = perm.split("|");
-        for(int i = 0; i < p.length; i++){
-           String role = p[i].split(":")[0];
-           String perms = p[i].split(":")[1];
-        }
-
-    }
-
-
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){

@@ -1,7 +1,10 @@
 package com.gamergeist.gamergeistsurvival.SQL;
 
+import com.gamergeist.gamergeistsurvival.Files.ConfigManager;
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +17,12 @@ import java.util.UUID;
 public class SQLGetter {
     private final GamerGeistSurvival plugin;
     private static SQLGetter instance;
+    private static FileConfiguration teamConfig;
+
+    private static int defaultTeamSize;
+    private static int maxTeamSize;
+    private static boolean upgradableTeamSize;
+
 
     public static SQLGetter getInstance() {
         return instance;
@@ -22,6 +31,12 @@ public class SQLGetter {
     public SQLGetter(GamerGeistSurvival plugin) {
         this.plugin = plugin;
         instance = this;
+        teamConfig = ConfigManager.getinstance().getConfig("TeamSetting.yml").getConfig();
+
+        defaultTeamSize = teamConfig.getInt("TeamSize.StartingSize");
+        maxTeamSize = teamConfig.getInt("TeamSize.Max-Players-Per-Team");
+        upgradableTeamSize = teamConfig.getBoolean("TeamSize.Upgradable");
+
     }
 
     public void createPlayer(Player p, String table) {
@@ -152,12 +167,18 @@ public class SQLGetter {
         }
     }
 
-    public void createTeamTable(){
-        try{
+    public void createTeamTable() {
+        try {
             StringBuilder tableCreate = new StringBuilder(500);
             tableCreate.append("Create table if not exists TeamTable (TeamName Varchar(50),serializedRoles MediumText,");
-            tableCreate.append("serializedPermissions MediumText,primary key(TeamName)");
+            tableCreate.append("serializedPermissions MediumText,teamSize int default ?,primary key(TeamName)");
             PreparedStatement ps = plugin.sql.getConnection().prepareStatement(tableCreate.toString());
+
+            if (upgradableTeamSize) {
+                ps.setInt(0, defaultTeamSize);
+            } else {
+                ps.setInt(0, maxTeamSize);
+            }
             ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -228,32 +249,67 @@ public class SQLGetter {
         });
     }
 
-    public void CreateTeam(String teamName,String serializedPermissions,String serializedRoles){
-        try{
+    public void CreateTeam(String teamName, String serializedPermissions, String serializedRoles) {
+        try {
             PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
-            "insert ignore into teamtable(teamname,serializedRoles,serializedPermissions) values(?,?,?) ");
-            ps.setString(0,teamName);
-            ps.setString(1,serializedRoles);
-            ps.setString(2,serializedPermissions);
+                    "insert ignore into teamtable(teamname,serializedRoles,serializedPermissions) values(?,?,?) ");
+            ps.setString(0, teamName);
+            ps.setString(1, serializedRoles);
+            ps.setString(2, serializedPermissions);
             ps.executeUpdate();
-        }catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public String getTeam(String teamName,String searchTerm){
-        try{
+    public String getTeam(String teamName, String searchTerm) {
+        try {
             PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
-                "select "+searchTerm+ " from teamtable where teamname = ?"
+                    "select " + searchTerm + " from teamtable where teamname = ?"
             );
-            ps.setString(0,teamName);
+            ps.setString(0, teamName);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString(searchTerm);
             }
-        }catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    public int getTeamInt(String teamName, String searchTerm) {
+        try {
+            PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
+                    "select " + searchTerm + " from teamtable where teamname = ?"
+            );
+            ps.setString(0, teamName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(searchTerm);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void updateTeamTable(String teamName,String permission,String members,int teamsize){
+        String S1 = "update teamtable set serializedPermissions ="+permission+" where teamname = "+teamName;
+        String S2 = "update teamtable set serializedRoles = "+members+" where teamname = "+teamName;
+        String S3 = "update teamtable set teamsize = "+teamsize+" where teamname = "+teamName;
+
+        try{
+            PreparedStatement ps1 = plugin.sql.getConnection().prepareStatement(S1);
+            ps1.executeUpdate();
+            PreparedStatement ps2 = plugin.sql.getConnection().prepareStatement(S2);
+            ps2.executeUpdate();
+            PreparedStatement ps3 = plugin.sql.getConnection().prepareStatement(S3);
+            ps3.executeUpdate();
+
+        }catch(SQLException throwables){
+
+        }
+
     }
 }

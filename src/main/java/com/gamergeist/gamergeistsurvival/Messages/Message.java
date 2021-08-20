@@ -4,6 +4,8 @@ import com.gamergeist.gamergeistsurvival.Files.ConfigManager;
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Objects;
+
 public class Message {
 
     private final GamerGeistSurvival plugin;
@@ -59,13 +61,13 @@ public class Message {
 
     public void setMessages() {
         cur = config.getString("Custom-Messages.main-currency-color");
-        cur2 = config.getString("Custom-Messages.premium-currency-color") + config.getString("Custom-Messages.premium-currency").replaceAll("&", "§");
-        datanocon = config.getString("Custom-Messages.database-not-connected").replaceAll("&", "§");
-        datacon = config.getString("Custom-Messages.database-connected").replaceAll("&", "§");
-        noperm = config.getString("Custom-Messages.no-perm").replaceAll("&", "§");
+        cur2 = config.getString("Custom-Messages.premium-currency-color") + Objects.requireNonNull(config.getString("Custom-Messages.premium-currency")).replaceAll("&", "§");
+        datanocon = Objects.requireNonNull(config.getString("Custom-Messages.database-not-connected")).replaceAll("&", "§");
+        datacon = Objects.requireNonNull(config.getString("Custom-Messages.database-connected")).replaceAll("&", "§");
+        noperm = Objects.requireNonNull(config.getString("Custom-Messages.no-perm")).replaceAll("&", "§");
 
         //Team messages
-        teamMsgPrefix = teamConfig.getString("Prefix").replaceAll("&", "§");
+        teamMsgPrefix = Objects.requireNonNull(teamConfig.getString("Prefix")).replaceAll("&", "§");
         playerNotFound = teamMessages.getString("Team.player-not-found");
         createdTeam = teamMessages.getString("Team.created-team");
         noPermission = teamMessages.getString("Team.no-permission");
