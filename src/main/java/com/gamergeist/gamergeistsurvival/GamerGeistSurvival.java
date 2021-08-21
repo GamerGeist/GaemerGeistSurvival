@@ -9,6 +9,7 @@ import com.gamergeist.gamergeistsurvival.GUI.Bags.*;
 import com.gamergeist.gamergeistsurvival.Messages.Message;
 import com.gamergeist.gamergeistsurvival.Messages.MessageManager;
 import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapBags;
+import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapTeams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -77,6 +78,7 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
         register(new WoodBagUpgradesMenu());
         register(new FarmBagUpgradesMenu());
         register(new OreBagResourcesMenu());
+        register(new HashmapTeams(this));
     }
 
     public void connectToSql(){
@@ -95,6 +97,7 @@ public final class GamerGeistSurvival extends JavaPlugin implements Listener {
             data.createCurrencyTable();
             data.createBagUnlockTable();
             data.createTeamTable();
+            data.createPlayerTeamTable();
         }
         else {
             MessageManager.ConsoleMessage(msg.datanocon);

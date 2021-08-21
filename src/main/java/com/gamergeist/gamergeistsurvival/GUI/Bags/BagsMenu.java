@@ -1,7 +1,7 @@
 package com.gamergeist.gamergeistsurvival.GUI.Bags;
 
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
-import com.gamergeist.gamergeistsurvival.ItemFactory;
+import com.gamergeist.gamergeistsurvival.utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -185,6 +185,17 @@ public class SQLGetter {
         }
     }
 
+
+    public void createPlayerTeamTable() {
+        try {
+            PreparedStatement ps = plugin.sql.getConnection().prepareStatement("Create table if not exists PlayerTeamTable" +
+                    " (UUID varchar(50),TeamName varchar(50) deafult \"None\",primary key(uuid) )");
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public void addPoints(UUID uuid, int points, String table, String parameter) {
         try {
             PreparedStatement ps = plugin.sql.getConnection().prepareStatement("UPDATE " + table + " SET " + parameter + " =? WHERE UUID=?");
@@ -278,6 +289,23 @@ public class SQLGetter {
         return null;
     }
 
+    public String getTeamName(String playerUUID) {
+        try {
+            PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
+                    "select teamname from teamtable where uuid = ?"
+            );
+            ps.setString(0, playerUUID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("teamname");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+
+    }
+
     public int getTeamInt(String teamName, String searchTerm) {
         try {
             PreparedStatement ps = plugin.sql.getConnection().prepareStatement(
@@ -294,12 +322,12 @@ public class SQLGetter {
         return -1;
     }
 
-    public void updateTeamTable(String teamName,String permission,String members,int teamsize){
-        String S1 = "update teamtable set serializedPermissions ="+permission+" where teamname = "+teamName;
-        String S2 = "update teamtable set serializedRoles = "+members+" where teamname = "+teamName;
-        String S3 = "update teamtable set teamsize = "+teamsize+" where teamname = "+teamName;
+    public void updateTeamTable(String teamName, String permission, String members, int teamsize) {
+        String S1 = "update teamtable set serializedPermissions =" + permission + " where teamname = " + teamName;
+        String S2 = "update teamtable set serializedRoles = " + members + " where teamname = " + teamName;
+        String S3 = "update teamtable set teamsize = " + teamsize + " where teamname = " + teamName;
 
-        try{
+        try {
             PreparedStatement ps1 = plugin.sql.getConnection().prepareStatement(S1);
             ps1.executeUpdate();
             PreparedStatement ps2 = plugin.sql.getConnection().prepareStatement(S2);
@@ -307,7 +335,7 @@ public class SQLGetter {
             PreparedStatement ps3 = plugin.sql.getConnection().prepareStatement(S3);
             ps3.executeUpdate();
 
-        }catch(SQLException throwables){
+        } catch (SQLException throwables) {
 
         }
 

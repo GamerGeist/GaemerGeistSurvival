@@ -3,16 +3,21 @@ package com.gamergeist.gamergeistsurvival.SQL.HashMaps;
 import com.gamergeist.gamergeistsurvival.CustomGuild.Teams;
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
 import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
+import com.gamergeist.gamergeistsurvival.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 
-public class HashmapTeams {
+public class HashmapTeams implements Listener {
 
     private static final HashMap<String, Teams>TeamsHashMap = new HashMap<>();
     private GamerGeistSurvival plugin;
@@ -30,8 +35,9 @@ public class HashmapTeams {
     }
 
     public static void RemoveTeam(String TeamName){
-        if(TeamsHashMap.containsKey(TeamName))
+        if(TeamsHashMap.containsKey(TeamName)){
             TeamsHashMap.remove(TeamName);
+            }
     }
 
 
@@ -61,9 +67,9 @@ public class HashmapTeams {
             String role = r[i].split("-")[0];
             String[] Players = r[i].split("-")[1].split(",");
             for (int j = 0; j < Players.length; j++) {
-                List<Player> p1 = new ArrayList<Player>();
-                List<OfflinePlayer> p2 = new ArrayList<OfflinePlayer>();
-                OfflinePlayer p = Bukkit.getOfflinePlayer(Players[j]);
+                List<Player> p1 = new ArrayList<>();
+                List<OfflinePlayer> p2 = new ArrayList<>();
+                OfflinePlayer p = Bukkit.getOfflinePlayer(UUID.fromString(Players[j]));
                 if(p.isOnline()){
                     p1.add(p.getPlayer());
                 }else{
@@ -76,29 +82,52 @@ public class HashmapTeams {
        return new Pair<HashMap<String, List<Player>>,HashMap<String, List<OfflinePlayer>>>(onlinePlayers,offlinePlayers);
     }
 
+
+    public static String getPermissionsString(String TeamName){
+        Teams team = TeamsHashMap.get(TeamName);
+        StringBuilder sb = new StringBuilder(1000);
+        team.getPermissions().entrySet().forEach(entry->{
+            sb.append(entry.getKey()+"-");
+            entry.getValue().entrySet().forEach(entry2->{
+                sb.append(entry2.getKey()+":"+entry2.getValue()+",");
+            });
+            sb.setCharAt(sb.lastIndexOf(","),'|');
+        });
+        sb.deleteCharAt(sb.lastIndexOf("|"));
+        return sb.toString();
+    }
+
+    public static String getMembersString(String TeamName){
+           Teams team = TeamsHashMap.get(TeamName);
+           StringBuilder sb = new StringBuilder(1000);
+           team.getMembers().first().entrySet().forEach(entry->{
+                String role = entry.getKey();
+                sb.append(role).append("-");
+                entry.getValue().forEach(p -> sb.append(p+","));
+                team.getMembers().second().get(role).forEach(p -> sb.append(p+","));
+                sb.setCharAt(sb.lastIndexOf(","),'|');
+
+           });
+            sb.deleteCharAt(sb.lastIndexOf("|"));
+            return sb.toString();
+    }
+
     public void SaveSql(){
-
-
-
+          TeamsHashMap.keySet().forEach(teamname ->
+            sql.updateTeamTable(teamname,getPermissionsString(teamname),
+            getMembersString(teamname),TeamsHashMap.get(teamname).getTeamSize()));
     }
 
-
-}
-
-class Pair<L,R> {
-    private final L first;
-    private final R second;
-
-    public Pair(L first, R second) {
-        this.first = first;
-        this.second = second;
-    }
-
-    public L first() {
-        return first;
-    }
-
-    public R second() {
-        return second;
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e){
+        Player p = e.getPlayer();
+        String teamName = sql.getTeamName(p.getUniqueId().toString());
+        if(teamName != null){
+            if(!TeamsHashMap.containsKey(teamName)){
+            AddTeam(teamName);
+            }
+            TeamsHashMap.get(teamName).shiftPlayerOnline(p);
+        }
     }
 }
+

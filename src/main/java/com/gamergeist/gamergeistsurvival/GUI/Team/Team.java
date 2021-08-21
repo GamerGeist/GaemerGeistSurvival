@@ -1,8 +1,7 @@
 package com.gamergeist.gamergeistsurvival.GUI.Team;
 
-import com.gamergeist.gamergeistsurvival.GUI.Bags.OreBagUpgradesMenu;
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
-import com.gamergeist.gamergeistsurvival.ItemFactory;
+import com.gamergeist.gamergeistsurvival.utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

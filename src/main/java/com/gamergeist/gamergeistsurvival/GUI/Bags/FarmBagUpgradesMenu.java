@@ -1,6 +1,6 @@
 package com.gamergeist.gamergeistsurvival.GUI.Bags;
 
-import com.gamergeist.gamergeistsurvival.ItemFactory;
+import com.gamergeist.gamergeistsurvival.utils.ItemFactory;
 import com.gamergeist.gamergeistsurvival.SQL.HashMaps.HashmapBags;
 import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
 import org.bukkit.Bukkit;

@@ -1,4 +1,4 @@
-package com.gamergeist.gamergeistsurvival;
+package com.gamergeist.gamergeistsurvival.utils;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

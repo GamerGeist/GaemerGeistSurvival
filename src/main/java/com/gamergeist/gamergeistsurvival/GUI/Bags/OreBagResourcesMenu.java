@@ -2,7 +2,7 @@ package com.gamergeist.gamergeistsurvival.GUI.Bags;
 
 import com.gamergeist.gamergeistsurvival.ConversationAPI.Conversation_API;
 import com.gamergeist.gamergeistsurvival.GamerGeistSurvival;
-import com.gamergeist.gamergeistsurvival.ItemFactory;
+import com.gamergeist.gamergeistsurvival.utils.ItemFactory;
 import com.gamergeist.gamergeistsurvival.SQL.SQLGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.ItemMeta;
 

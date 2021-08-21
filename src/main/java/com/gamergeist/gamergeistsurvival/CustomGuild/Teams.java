@@ -3,6 +3,7 @@ package com.gamergeist.gamergeistsurvival.CustomGuild;
 import com.gamergeist.gamergeistsurvival.Files.ConfigManager;
 import com.gamergeist.gamergeistsurvival.Messages.Message;
 import com.gamergeist.gamergeistsurvival.Messages.MessageManager;
+import com.gamergeist.gamergeistsurvival.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -43,6 +44,18 @@ public class Teams {
 
         public static void SetPermissions(HashMap<String,HashMap<String, Boolean>> perms){
                 permissions = perms;
+        }
+
+        public HashMap<String,HashMap<String,Boolean>> getPermissions(){
+            return permissions;
+        }
+        
+        public int getTeamSize(){
+            return TeamSize;
+        }
+
+        public Pair<HashMap<String, List<Player>>,HashMap<String, List<OfflinePlayer>>> getMembers(){
+            return new Pair<HashMap<String, List<Player>>,HashMap<String, List<OfflinePlayer>>>(TeamMembersOnline,TeamMembersOffline);
         }
 
         public static void SetTeamMembersOnline(HashMap<String,List<Player>> members){
